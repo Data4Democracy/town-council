@@ -27,10 +27,10 @@ Volunteers with backgrounds in and/or interest in learning the following are hig
 At present, our focus is to develop the underlying scraping software/scripts for the database, but also welcome researchers/analysts interested in local politics and downstream analyses with the data. Possible later analyses might include:
 
 * Counting mentions of large organizations (lobbists, think-tanks, corporations) in local meetings.
-* Mapping concern for state/national issues (e.g., Affordable Health Care for America Act) at high respolution by pairing with local demographic metadata (e.g., political affiliation, median income).
+* Mapping concern for state/national issues (e.g., Affordable Health Care for America Act) at high resolution by pairing with local demographic metadata (e.g., political affiliation, median income).
 
 ## Project Scope:
 
 Given the high variation in how city council results are shared online from city-to-city (different file infrastructures, minute/agenda formats), our **initial focus** is to develop flexible, user-friendly tools that can be used with little modification to scrape different cities' public agendas/meetings.
 
-This project is extremely new (founded late April 2017). To begin tool/database development, we've selected twenty-two cities in the San Francisco Bay Area as an initial case study.
+This project is extremely new (founded late April 2017). To begin tool/database development, we've selected twenty-two cities in the San Francisco Bay Area as an initial case study (see list of cities / contribute to city metadata [here](https://github.com/Data4Democracy/town-council/tree/master/city_metadata)).
