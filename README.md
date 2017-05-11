@@ -7,7 +7,7 @@ Tools to scrape and centralize the text of meeting agendas & minutes from local 
 **Project Description:**
 Access to city council meetings can be limited not only physically, but even electronically due user-unfriendly web navigation portals and frequent use of scanned .pdf documents (i.e., meeting issues and outcomes not easily readable and searchable). Moreover, no tools exist to compare local government issues between cities.
 
-We aim to provide the infrastructure for a **publically available, text-searchable database aggregating city council agendas and minutes**, towards the goals of: (1) promoting local government accessibility/transparency and (2) establishing open-source data/software resources to track and analyze trends in local governments.
+We aim to provide the infrastructure for a **publicly available, text-searchable database aggregating city council agendas and minutes**, towards the goals of: (1) promoting local government accessibility/transparency and (2) establishing open-source data/software resources to track and analyze trends in local governments.
 
 **Project Co-Leads:**
 [@chooliu](https://datafordemocracy.slack.com/messages/@chooliu/) / TBD (more leads needed!)
@@ -26,7 +26,7 @@ Volunteers with backgrounds in and/or interest in learning the following are hig
 
 At present, our focus is to develop the underlying scraping software/scripts for the database, but also welcome researchers/analysts interested in local politics and downstream analyses with the data. Possible later analyses might include:
 
-* Counting mentions of large organizations (lobbists, think-tanks, corporations) in local meetings.
+* Counting mentions of large organizations (lobbyist, think-tanks, corporations) in local meetings.
 * Mapping concern for state/national issues (e.g., Affordable Health Care for America Act) at high resolution by pairing with local demographic metadata (e.g., political affiliation, median income).
 
 ## Project Scope:
