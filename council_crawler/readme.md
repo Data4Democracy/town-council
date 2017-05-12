@@ -9,7 +9,7 @@ For now spider just returns a json object which can be output to a file by runni
 
 Example of record item from http://dublinca.gov/1604/Meetings-Agendas-Minutes-Video-on-Demand
 
-```json
+```
 {'agenda_url': ['http://dublinca.gov/Archive.aspx?ADID=736'],
  'meeting_type': 'Regular Meeting',
  'minutes_url': 'http://www.pbtech.org/clients/dublin_cc/dublinccm02212017.html',
