@@ -8,7 +8,16 @@
 import scrapy
 
 
-class CouncilCrawlerItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+class Record(scrapy.Item):
+
+    # Required
+    scraped_datetime = scrapy.Field()
+    record_date = scrapy.Field()
+    source_url = scrapy.Field()
+    source = scrapy.Field()
+
+    # Additional info
+    meeting_type = scrapy.Field()
+    agenda_url = scrapy.Field()
+    video_url = scrapy.Field()
+    minutes_url = scrapy.Field()
