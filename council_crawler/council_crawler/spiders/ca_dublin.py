@@ -1,8 +1,16 @@
 import datetime
+import hashlib
 from urllib.parse import urljoin
 
 import scrapy
-from council_crawler.items import Record
+from council_crawler.items import Record, Link
+
+
+def url_to_md5(url):
+    m = hashlib.md5()
+    m.update(url.encode())
+    return m.hexdigest()
+
 
 
 class Dublin(scrapy.spiders.CrawlSpider):
@@ -30,7 +38,9 @@ class Dublin(scrapy.spiders.CrawlSpider):
 
         table_body = response.xpath('//table/tbody/tr')
         for row in table_body:
-            date = row.xpath('.//td[@data-th="Date"]/text()').extract_first()
+            record_date = row.xpath('.//td[@data-th="Date"]/text()').extract_first()
+            record_date = datetime.datetime.strptime(record_date, '%B %d, %Y')
+
             meeting_type = row.xpath('.//td[@data-th="Meeting Type"]/text()').extract_first()
             agenda_urls = row.xpath('.//td[starts-with(@data-th,"Agenda")]/a/@href').extract()
             video_url = row.xpath('.//td[@data-th="Video"]/a/@href').extract_first()
@@ -38,13 +48,26 @@ class Dublin(scrapy.spiders.CrawlSpider):
 
             record = Record(
                 scraped_datetime = datetime.datetime.utcnow(),
-                record_date = date,
+                record_date = record_date,
                 source = self.name,
                 source_url = response.url,
                 meeting_type = meeting_type,
                 agenda_url = get_agenda_url(agenda_urls),
-                video_url = video_url if video_url else None,  # not available immediately 
-                minutes_url = minutes_url if minutes_url else None,  # not available immediately 
+                video_url = video_url if video_url else None,  # not available immediately
+                minutes_url = minutes_url if minutes_url else None,  # not available immediately
                 )
 
+            str_date = '{}_{}_{}'.format(record_date.year, record_date.month, record_date.day)
+
+            if minutes_url:
+                link = Link(
+                        event='dublin_ca_{}_{}'.format(meeting_type.lower(), str_date),
+                        media_type='application/pdf',
+                        url=minutes_url,
+                        url_hash = url_to_md5(minutes_url),
+                        text = meeting_type
+                    )
+                yield link
+
             yield record
+
