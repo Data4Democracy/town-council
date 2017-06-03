@@ -10,7 +10,7 @@ Access to city council meetings can be limited not only physically, but even ele
 We aim to provide the infrastructure for a **publicly available, text-searchable database aggregating city council agendas and minutes**, towards the goals of: (1) promoting local government accessibility/transparency and (2) establishing open-source data/software resources to track and analyze trends in local governments.
 
 **Project Co-Leads:**
-[@chooliu](https://datafordemocracy.slack.com/messages/@chooliu/) / TBD (more leads needed!)
+[@chooliu](https://datafordemocracy.slack.com/messages/@chooliu/) / [@bstarling](https://datafordemocracy.slack.com/messages/@bstarling/) / TBD (more leads needed!)
 
 ## Getting Started
 
