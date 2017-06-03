@@ -48,4 +48,3 @@ Examples of city council documents for testing .pdf scraping tools are available
 ## Related Work
 * https://github.com/datamade/nyc-councilmatic
 * http://opencivicdata.readthedocs.io/en/latest/
-
