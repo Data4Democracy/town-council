@@ -3,6 +3,7 @@ from urllib.parse import urljoin
 
 import scrapy
 from council_crawler.items import Event
+from council_crawler.utils import url_to_md5
 
 
 class Belmont(scrapy.spiders.CrawlSpider):
@@ -10,7 +11,7 @@ class Belmont(scrapy.spiders.CrawlSpider):
 
     def start_requests(self):
 
-        urls = ['http://www.belmont.gov/city-hall/city-government/city-meetings/-toggle-all']
+        urls = ['http://www.belmont.gov/city-hall/city-government/city-meetings/-toggle-all/-npage-2']
 
         for url in urls:
             yield scrapy.Request(url=url, callback=self.parse_archive)
@@ -28,26 +29,54 @@ class Belmont(scrapy.spiders.CrawlSpider):
             else:
                 None
 
+        def get_media_type(element):
+            text = element.xpath('.//text()').extract_first()
+            pdf_img = element.xpath('.//img/@src').extract_first()
+            if text == 'link':
+                return 'text/html'
+            elif 'ac' in text.lower():
+                return 'application/pdf'
+            elif pdf_img is not None:
+                print(pdf_img)
+                if pdf_img.split('.')[0].endswith('pdf'):
+                    return 'application/pdf'
+
         table_body = response.xpath('//table/tbody/tr')
         for row in table_body:
             meeting_type=row.xpath('.//span[@itemprop="summary"]/text()').extract_first()
-            event_url = row.xpath('.//td[@class="event_title"]//a/@href').extract_first()
             date_time = row.xpath('.//td[@class="event_datetime"]/text()').extract_first()
             agenda_url = row.xpath('.//td[@class="event_agenda"]//a/@href').extract_first()
             event_minutes_url = row.xpath('.//td[@class="event_minutes"]/a/@href').extract_first()
-            event_video_url = row.xpath('.//td[@class="event_video"]//a/@href').extract_first()
 
-            record = Event(
+            event = Event(
                 _type='event',
                 name='Belmont, CA City Council {}'.format(meeting_type),
-                scraped_datetime = datetime.datetime.utcnow(),
-                record_date = date_time,
-                source = self.name,
-                source_url = response.url,
-
-                agenda_urls = agenda_url if agenda_url else None,
-                minutes_url = event_minutes_url if event_minutes_url else None,
-                video_url = event_video_url if event_video_url else None,
+                scraped_datetime=datetime.datetime.utcnow(),
+                record_date=date_time,
+                source=self.name,
+                source_url=response.url,
+                meeting_type=meeting_type
                 )
 
-            yield record
+            documents = []
+            if agenda_url is not None:
+                element = row.xpath('.//td[@class="event_agenda"]/a')
+                agenda_doc = {
+                    'media_type': get_media_type(element),
+                    'url': agenda_url,
+                    'url_hash': url_to_md5(agenda_url),
+                    'category': 'agenda'
+                }
+                documents.append(agenda_doc)
+
+            if event_minutes_url is not None:
+                minutes_doc = {
+                    'media_type': 'application/pdf',
+                    'url': event_minutes_url,
+                    'url_hash': url_to_md5(event_minutes_url),
+                    'category': 'minutes'
+                }
+                documents.append(minutes_doc)
+
+            event['documents'] = documents
+            yield event
