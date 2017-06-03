@@ -62,13 +62,14 @@ class Dublin(scrapy.spiders.CrawlSpider):
                 }
                 documents.append(agenda_doc)
 
-            minutes_doc = {
-                'media_type': 'application/pdf',
-                'url': minutes_url,
-                'url_hash': url_to_md5(url),
-                'category': 'minutes'
-            }
-            documents.append(minutes_doc)
+            if minutes_url:
+                minutes_doc = {
+                    'media_type': 'application/pdf',
+                    'url': minutes_url,
+                    'url_hash': url_to_md5(url),
+                    'category': 'minutes'
+                }
+                documents.append(minutes_doc)
 
             event['documents'] = documents
 

@@ -11,7 +11,7 @@ class Belmont(scrapy.spiders.CrawlSpider):
 
     def start_requests(self):
 
-        urls = ['http://www.belmont.gov/city-hall/city-government/city-meetings/-toggle-all/-npage-2']
+        urls = ['http://www.belmont.gov/city-hall/city-government/city-meetings/-toggle-all']
 
         for url in urls:
             yield scrapy.Request(url=url, callback=self.parse_archive)
