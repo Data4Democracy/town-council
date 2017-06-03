@@ -1,16 +1,10 @@
 import datetime
-import hashlib
 from urllib.parse import urljoin
 
 import scrapy
-from council_crawler.items import Record, Link
 
-
-def url_to_md5(url):
-    m = hashlib.md5()
-    m.update(url.encode())
-    return m.hexdigest()
-
+from council_crawler.items import Event
+from council_crawler.utils import url_to_md5
 
 
 class Dublin(scrapy.spiders.CrawlSpider):
@@ -43,31 +37,39 @@ class Dublin(scrapy.spiders.CrawlSpider):
 
             meeting_type = row.xpath('.//td[@data-th="Meeting Type"]/text()').extract_first()
             agenda_urls = row.xpath('.//td[starts-with(@data-th,"Agenda")]/a/@href').extract()
-            video_url = row.xpath('.//td[@data-th="Video"]/a/@href').extract_first()
+            agenda_urls = get_agenda_url(agenda_urls)
             minutes_url = row.xpath('.//td[@data-th="Minutes"]/a/@href').extract_first()
 
-            record = Record(
-                scraped_datetime = datetime.datetime.utcnow(),
-                record_date = record_date,
-                source = self.name,
-                source_url = response.url,
-                meeting_type = meeting_type,
-                agenda_url = get_agenda_url(agenda_urls),
-                video_url = video_url if video_url else None,  # not available immediately
-                minutes_url = minutes_url if minutes_url else None,  # not available immediately
+            event = Event(
+                _type='event',
+                name='Dublin, CA City Council {}'.format(meeting_type),
+                scraped_datetime=datetime.datetime.utcnow(),
+                record_date=record_date,
+                source=self.name,
+                source_url=response.url,
+                meeting_type=meeting_type,
                 )
 
-            str_date = '{}_{}_{}'.format(record_date.year, record_date.month, record_date.day)
+            # This block should be cleaned up later
+            # create nested JSON obj for each doc related to meeting
+            documents = []
+            for url in agenda_urls:
+                agenda_doc = {
+                    'media_type': 'application/pdf',
+                    'url': url,
+                    'url_hash': url_to_md5(url),
+                    'category': 'agenda'
+                }
+                documents.append(agenda_doc)
 
-            if minutes_url:
-                link = Link(
-                        event='dublin_ca_{}_{}'.format(meeting_type.lower(), str_date),
-                        media_type='application/pdf',
-                        url=minutes_url,
-                        url_hash = url_to_md5(minutes_url),
-                        text = meeting_type
-                    )
-                yield link
+            minutes_doc = {
+                'media_type': 'application/pdf',
+                'url': minutes_url,
+                'url_hash': url_to_md5(url),
+                'category': 'minutes'
+            }
+            documents.append(minutes_doc)
 
-            yield record
+            event['documents'] = documents
 
+            yield event

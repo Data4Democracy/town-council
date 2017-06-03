@@ -2,7 +2,8 @@ import datetime
 from urllib.parse import urljoin
 
 import scrapy
-from council_crawler.items import Record
+from council_crawler.items import Event
+
 
 class Belmont(scrapy.spiders.CrawlSpider):
     name = 'belmont'
@@ -28,23 +29,25 @@ class Belmont(scrapy.spiders.CrawlSpider):
                 None
 
         table_body = response.xpath('//table/tbody/tr')
-        #print(table_body)
         for row in table_body:
+            meeting_type=row.xpath('.//span[@itemprop="summary"]/text()').extract_first()
             event_url = row.xpath('.//td[@class="event_title"]//a/@href').extract_first()
             date_time = row.xpath('.//td[@class="event_datetime"]/text()').extract_first()
             agenda_url = row.xpath('.//td[@class="event_agenda"]//a/@href').extract_first()
             event_minutes_url = row.xpath('.//td[@class="event_minutes"]/a/@href').extract_first()
             event_video_url = row.xpath('.//td[@class="event_video"]//a/@href').extract_first()
 
-            record = Record(
+            record = Event(
+                _type='event',
+                name='Belmont, CA City Council {}'.format(meeting_type),
                 scraped_datetime = datetime.datetime.utcnow(),
                 record_date = date_time,
-                #event_url = event_url,
                 source = self.name,
                 source_url = response.url,
-                #event_datetime = datetime,
-                agenda_url = agenda_url if agenda_url else None,
+
+                agenda_urls = agenda_url if agenda_url else None,
                 minutes_url = event_minutes_url if event_minutes_url else None,
                 video_url = event_video_url if event_video_url else None,
                 )
+
             yield record
