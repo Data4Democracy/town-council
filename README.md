@@ -29,7 +29,7 @@ At present, our focus is to develop the underlying scraping software/scripts for
 * Counting mentions of large organizations (lobbyist, think-tanks, corporations) in local meetings.
 * Mapping concern for state/national issues (e.g., Affordable Health Care for America Act) at high resolution by pairing with local demographic metadata (e.g., political affiliation, median income).
 
-## Project Scope:
+## Project Scope
 
 Given the high variation in how city council results are shared online from city-to-city (different file infrastructures, minute/agenda formats), our **initial focus** is to develop flexible, user-friendly tools that can be used with little modification to scrape different cities' public agendas/meetings.
 
@@ -44,3 +44,8 @@ Examples of city council documents for testing .pdf scraping tools are available
 
 ## Scrapy
 * Read more [here](./council_crawler/readme.md)
+
+## Related Work
+* https://github.com/datamade/nyc-councilmatic
+* http://opencivicdata.readthedocs.io/en/latest/
+
