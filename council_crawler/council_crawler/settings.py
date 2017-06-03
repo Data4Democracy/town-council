@@ -64,9 +64,9 @@ ROBOTSTXT_OBEY = True
 
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    'council_crawler.pipelines.CouncilCrawlerPipeline': 300,
-#}
+ITEM_PIPELINES = {
+    # 'council_crawler.pipelines.SaveMediaResourcePipeline': 300,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See http://doc.scrapy.org/en/latest/topics/autothrottle.html
@@ -88,3 +88,12 @@ ROBOTSTXT_OBEY = True
 #HTTPCACHE_DIR = 'httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
+
+DATABASE = {
+    'drivername': 'sqlite',
+    # 'host': 'localhost',
+    # 'port': '5432',
+    # 'username': 'YOUR_USERNAME',
+    # 'password': 'YOUR_PASSWORD',
+    'database': 'town_council.sqlite'
+}

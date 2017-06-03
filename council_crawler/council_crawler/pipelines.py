@@ -1,11 +1,8 @@
-# -*- coding: utf-8 -*-
-
-# Define your item pipelines here
-#
-# Don't forget to add your pipeline to the ITEM_PIPELINES setting
-# See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
+from council_crawler.items import Event
+from council_crawler.db_utils import save_url
+from council_crawler.utils import url_to_md5
 
 
-class CouncilCrawlerPipeline(object):
-    def process_item(self, item, spider):
-        return item
+class SaveMediaResourcePipeline(object):
+    """Stores links to media for later download"""
+    pass
