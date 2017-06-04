@@ -43,13 +43,13 @@ We are slowly working towards implementing [Open Civic Data's standard data form
 
 ### Event Objects
 
-Event is a scrapy item object loosely based on Open Civic Data's [Event]object (http://opencivicdata.readthedocs.io/en/latest/data/event.html)  
+Event is a scrapy item object loosely based on Open Civic Data's [Event]object (http://opencivicdata.readthedocs.io/en/latest/data/event.html)
 
 Changes to the Event schema will impact ALL spiders. We are open to suggestions or improvements but any changes should be cleared with maintainers prior to starting work.
 
 **Required Fields**  
 **_type:** string always set to `event`  
-**name:** string describing name of event. Generally the name as it appears on the website
+**name:** string describing name of event. Generally the name as it appears on the website  
 **scraped_datetime:** datetime spider ran in YYYY-MM-DD HH:MM:SS should be standardized to UTC  
 **source_url:** URL or landing page the event item was gathered from  
 **source:** spider name  
@@ -63,10 +63,10 @@ Changes to the Event schema will impact ALL spiders. We are open to suggestions 
 Nested json object which contains documents identified as being linked to a particular events. Agendas, meeting minutes, supporting documentation such as building permits/plans etc.
 
 **Fields:**  
-**media_type**: [IANA media type](https://www.iana.org/assignments/media-types/media-types.xhtml) if it can be **determined. Set to none or null if it cannot.  
-**url:** URL of document. If possible follow redirects to get final resource location.  
-**url_hash:** MD5 of hash, used further downstream to dedupe & organize download of docs.  
-**category:** Document category. Ex agenda, minutes. Types to be added as encountered.  
+**media_type**: [IANA media type](https://www.iana.org/assignments/media-types/media-types.xhtml) if it can be **determined. Set to none or null if it cannot  
+**url:** URL of document. If possible follow redirects to get final resource location  
+**url_hash:** MD5 of hash, used further downstream to dedupe & organize download of docs  
+**category:** Document category. Ex agenda, minutes. Types to be added as encountered  
 
 Example media objects
 ```
@@ -82,5 +82,22 @@ Example media objects
     "url": "/Home/ShowDocument?id=15369",
     "url_hash": "d88e4b232a72b0522a4cce17521654f5",
     "category": "minutes"
+}
+```
+
+### Additional settings  
+
+Work in progress. Currently supports SQLITE.
+
+`DATABASE` is a dictionary containing the connection details needed to connect/create database used by `SaveDocumentLinkPipeline` to store document links the spiders have collected.
+
+```
+DATABASE = {
+    'drivername': 'sqlite',
+    # 'host': 'localhost',
+    # 'port': '5432',
+    # 'username': 'YOUR_USERNAME',
+    # 'password': 'YOUR_PASSWORD',
+    'database': 'town_council.sqlite'
 }
 ```

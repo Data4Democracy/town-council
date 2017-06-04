@@ -33,7 +33,7 @@ class Dublin(scrapy.spiders.CrawlSpider):
         table_body = response.xpath('//table/tbody/tr')
         for row in table_body:
             record_date = row.xpath('.//td[@data-th="Date"]/text()').extract_first()
-            record_date = datetime.datetime.strptime(record_date, '%B %d, %Y')
+            record_date = datetime.datetime.strptime(record_date, '%B %d, %Y').date()
 
             meeting_type = row.xpath('.//td[@data-th="Meeting Type"]/text()').extract_first()
             agenda_urls = row.xpath('.//td[starts-with(@data-th,"Agenda")]/a/@href').extract()
