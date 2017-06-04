@@ -5,7 +5,7 @@ from scrapy.utils.project import get_project_settings
 database = get_project_settings().get('DATABASE')
 
 
-def save_url(item):
+def save_url(document, event):
     """Save URL to specified database imported from DATABASE in
     settings.py"
     """
@@ -35,11 +35,11 @@ def save_url(item):
                 event, event_date, url, media_type, url_hash, category) \
             values (?, ?, ?, ?, ?, ?)
             """,
-            (item['event'],
-             item['event_date'],
-             item['url'],
-             item['media_type'],
-             item['url_hash'],
-             item['category']))
+            (event['name'],
+             event['record_date'],
+             document['url'],
+             document['media_type'],
+             document['url_hash'],
+             document['category']))
         connection.commit()
-    return item
+    return event

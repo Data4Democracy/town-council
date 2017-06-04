@@ -99,3 +99,7 @@ test.json
 
 # Pycharm
 ./idea
+
+# Tmp DBs
+*.sqlite
+*.db
