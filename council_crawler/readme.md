@@ -87,17 +87,26 @@ Example media objects
 
 ### Additional settings  
 
-Work in progress. Currently supports SQLITE.
+Work in progress. Currently supports sqlite & postgresql.
 
-`DATABASE` is a dictionary containing the connection details needed to connect/create database used by `SaveDocumentLinkPipeline` to store document links the spiders have collected.
+`STORAGE_ENGINE` is a dictionary containing the connection details needed to connect/create database used by `SaveDocumentLinkPipeline` to store document links the spiders have collected.
 
 ```
-DATABASE = {
+# sqlite template
+STORAGE_ENGINE = {
     'drivername': 'sqlite',
-    # 'host': 'localhost',
-    # 'port': '5432',
-    # 'username': 'YOUR_USERNAME',
-    # 'password': 'YOUR_PASSWORD',
     'database': 'town_council.sqlite'
+}
+```
+
+```
+# postgresql template
+STORAGE_ENGINE = {
+    'drivername': 'postgresql',
+    'host': 'localhost',
+    'port': '5432',
+    'username': 'USERNAME',
+    'password': 'YOUR_PASSWORD',
+    'database': 'town_council'
 }
 ```

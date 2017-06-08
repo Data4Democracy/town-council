@@ -89,11 +89,23 @@ ITEM_PIPELINES = {
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
-DATABASE = {
+
+# PG template
+# STORAGE_ENGINE = {
+#     'drivername': 'postgresql',
+#     'host': 'localhost',
+#     # 'port': '5432',
+#     # 'username': 'USERNAME',
+#     # 'password': 'YOUR_PASSWORD',
+#     'database': 'town_council'
+# }
+
+# sqlite template
+STORAGE_ENGINE = {
     'drivername': 'sqlite',
     # 'host': 'localhost',
     # 'port': '5432',
-    # 'username': 'YOUR_USERNAME',
+    # 'username': 'cc',
     # 'password': 'YOUR_PASSWORD',
-    'database': 'town_council.sqlite'
+    'database': 'town_council'
 }

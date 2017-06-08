@@ -1,6 +1,5 @@
 from council_crawler.items import Event
-from council_crawler.db_utils import save_url
-from council_crawler.utils import url_to_md5
+from council_crawler.db_utils import stage_url
 
 
 class SaveDocumentLinkPipeline(object):
@@ -8,6 +7,6 @@ class SaveDocumentLinkPipeline(object):
     def process_item(self, item, spider):
         if isinstance(item, Event):
             for doc in item['documents']:
-                save_url(doc, item)
+                stage_url(doc, item)
         return item
 
