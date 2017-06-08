@@ -95,7 +95,7 @@ ITEM_PIPELINES = {
 #     'drivername': 'postgresql',
 #     'host': 'localhost',
 #     # 'port': '5432',
-#     # 'username': 'USERNAME',
+#     'username': 'YOUR_USERNAME',
 #     # 'password': 'YOUR_PASSWORD',
 #     'database': 'town_council'
 # }

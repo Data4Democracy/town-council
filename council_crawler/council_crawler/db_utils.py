@@ -113,3 +113,4 @@ def get_or_create_url_stage():
         data_table.create()
 
     return db, data_table
+
