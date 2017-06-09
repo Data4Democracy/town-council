@@ -1,4 +1,19 @@
+import datetime
+
 import requests
+from sqlalchemy import create_engine
+from sqlalchemy import Column, Integer, Date, DateTime, MetaData, Table, String
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import sessionmaker
+
+STORAGE_ENGINE = {
+    'drivername': 'postgresql',
+    'host': 'localhost',
+    # 'port': '5432',
+    'username': 'cc',
+    # 'password': 'YOUR_PASSWORD',
+    'database': 'town_council'
+}
 
 
 class Document():
@@ -39,9 +54,96 @@ class Document():
                 return f
 
 
-# Get / Receive links
-# Parse for URL
-# Download
-# Store
-# Update DB with result
+def links_to_process():
+    pass
 
+
+def setup_db():
+    driver = STORAGE_ENGINE['drivername']
+    host = STORAGE_ENGINE['host']
+    username = STORAGE_ENGINE['username']
+    # port = STORAGE_ENGINE['port']
+    database = STORAGE_ENGINE['database']
+
+    db = f'{driver}://{username}@{host}/{database}'
+    engine = create_engine(db)
+    metadata = MetaData(db)
+
+    return engine, metadata
+
+
+def get_url_stage():
+
+    _, metadata = setup_db()
+
+    table = Table(
+            'url_stage',
+            metadata,
+            Column('id', Integer, primary_key=True),
+            Column('event', String),
+            Column('event_date', Date),
+            Column('url', String),
+            Column('url_hash', String),
+            Column('category', String),
+            Column('created_at', DateTime, default=datetime.datetime.now)
+    )
+
+    return table
+
+
+def get_catalog():
+    _, metadata = setup_db()
+
+    table = Table(
+            'catalog',
+            metadata,
+            Column('id', Integer, primary_key=True),
+            Column('url', String,),
+            Column('url_hash', String, unique=True, index=True),
+            Column('location', String),
+            Column('filename', String),
+            Column('uploaded_at', DateTime, default=datetime.datetime.now)
+    )
+
+    return table
+
+
+def get_document(catalog):
+    _, metadata = setup_db()
+    catalog = get_catalog()
+
+    table = Table(
+            'document',
+            metadata,
+            Column('id', Integer, primary_key=True),
+            Column('event', String),
+            Column('event_date', Date),
+            Column('url', String),
+            Column('url_hash', String),
+            Column('media_type', String),
+            Column('category', String),
+            Column('status', String),
+            Column('doc_id', Integer, ForeignKey(catalog.c.id),
+                    nullable=True, index=True),
+            Column('created_at', DateTime, default=datetime.datetime.now)
+    )
+
+    return table
+
+
+def create_tables():
+    engine, metadata = setup_db()
+
+    url_stage = get_url_stage()
+    catalog = get_catalog()
+    document = get_document(catalog)
+
+    if not engine.dialect.has_table(engine, url_stage):
+        url_stage.create()
+    if not engine.dialect.has_table(engine, catalog):
+        catalog.create()
+    if not engine.dialect.has_table(engine, document):
+        document.create()
+
+
+create_tables()

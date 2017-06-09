@@ -64,7 +64,7 @@ class Dublin(scrapy.spiders.CrawlSpider):
 
             if minutes_url:
                 minutes_doc = {
-                    'media_type': 'application/pdf',
+                    'media_type': '',
                     'url': minutes_url,
                     'url_hash': url_to_md5(url),
                     'category': 'minutes'

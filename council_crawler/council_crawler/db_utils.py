@@ -33,7 +33,6 @@ def pg_stage_url(document, event):
                 event_date=event['record_date'],
                 url=document['url'],
                 url_hash=document['url_hash'],
-                media_type=document['media_type'],
                 category=document['category']
                 )
         except Exception as e:
@@ -58,7 +57,6 @@ def sqlite_stage_url(document, event):
                 event VARCHAR(80),
                 event_date DATE,
                 url VARCHAR(80),
-                media_type VARCHAR(80),
                 url_hash VARCHAR(80),
                 category VARCHAR(150),
                 created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -69,13 +67,12 @@ def sqlite_stage_url(document, event):
 
     cursor.execute(
         """insert into URL_STAGE (
-            event, event_date, url, media_type, url_hash, category) \
-        values (?, ?, ?, ?, ?, ?)
+            event, event_date, url, url_hash, category) \
+        values (?, ?, ?, ?, ?)
         """,
         (event['name'],
          event['record_date'],
          document['url'],
-         document['media_type'],
          document['url_hash'],
          document['category']))
     connection.commit()
@@ -106,11 +103,9 @@ def get_or_create_url_stage():
             Column('url', String),
             Column('url_hash', String),
             Column('category', String),
-            Column('media_type', String),
             Column('created_at', DateTime, default=datetime.datetime.now)
     )
     if not engine.dialect.has_table(engine, table_name):
         data_table.create()
 
     return db, data_table
-

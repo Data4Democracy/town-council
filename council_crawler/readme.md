@@ -21,13 +21,11 @@ Example of record item from [Belmont, CA](http://www.belmont.gov/city-hall/city-
     "meeting_type": "Parks and Recreation Commission Meeting",
     "documents": [
         {
-            "media_type": "text/html",
             "url": "http://belmont-ca.granicus.com/GeneratedAgendaViewer.php?event_id=2d488f17-13ff-11e7-ad57-f04da2064c47",
             "url_hash": "8dc13790ccd0c186275c4d67ae4bf69a",
             "category": "agenda"
         },
         {
-            "media_type": "application/pdf",
             "url": "/Home/ShowDocument?id=15369",
             "url_hash": "d88e4b232a72b0522a4cce17521654f5",
             "category": "minutes"
@@ -63,7 +61,6 @@ Changes to the Event schema will impact ALL spiders. We are open to suggestions 
 Nested json object which contains documents identified as being linked to a particular events. Agendas, meeting minutes, supporting documentation such as building permits/plans etc.
 
 **Fields:**  
-**media_type**: [IANA media type](https://www.iana.org/assignments/media-types/media-types.xhtml) if it can be **determined. Set to none or null if it cannot  
 **url:** URL of document. If possible follow redirects to get final resource location  
 **url_hash:** MD5 of hash, used further downstream to dedupe & organize download of docs  
 **category:** Document category. Ex agenda, minutes. Types to be added as encountered  
@@ -71,14 +68,12 @@ Nested json object which contains documents identified as being linked to a part
 Example media objects
 ```
 {
-    "media_type": "text/html",
     "url": "http://belmont-ca.granicus.com/GeneratedAgendaViewer.php?event_id=2d488f17-13ff-11e7-ad57-f04da2064c47",
     "url_hash": "8dc13790ccd0c186275c4d67ae4bf69a",
     "category": "agenda"
 }
 
 {
-    "media_type": "application/pdf",
     "url": "/Home/ShowDocument?id=15369",
     "url_hash": "d88e4b232a72b0522a4cce17521654f5",
     "category": "minutes"

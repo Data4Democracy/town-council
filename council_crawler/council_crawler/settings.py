@@ -91,21 +91,21 @@ ITEM_PIPELINES = {
 
 
 # PG template
-# STORAGE_ENGINE = {
-#     'drivername': 'postgresql',
-#     'host': 'localhost',
-#     # 'port': '5432',
-#     'username': 'YOUR_USERNAME',
-#     # 'password': 'YOUR_PASSWORD',
-#     'database': 'town_council'
-# }
-
-# sqlite template
 STORAGE_ENGINE = {
-    'drivername': 'sqlite',
-    # 'host': 'localhost',
+    'drivername': 'postgresql',
+    'host': 'localhost',
     # 'port': '5432',
-    # 'username': 'cc',
+    'username': 'cc',
     # 'password': 'YOUR_PASSWORD',
     'database': 'town_council'
 }
+
+# sqlite template
+# STORAGE_ENGINE = {
+#     'drivername': 'sqlite',
+#     # 'host': 'localhost',
+#     # 'port': '5432',
+#     # 'username': 'cc',
+#     # 'password': 'YOUR_PASSWORD',
+#     'database': 'town_council'
+# }
