@@ -5,7 +5,7 @@ Tools to scrape and centralize the text of meeting agendas & minutes from local 
 **Slack:** [#town-council](http://datafordemocracy.slack.com/messages/town-council)
 
 **Project Description:**
-Engagement in local government is limited not only by physical accessibility to city council meetings, but also difficult-to-navigate portals and frequent use of scanned .pdf documents (i.e., meeting issues and outcomes are not easily readable and searchable by constituents).
+Engagement in local government is limited not only by physical accessibility to city council meetings, but also electronically due to difficult-to-navigate portals and frequent use of scanned .pdf documents (i.e., meeting issues and outcomes are not easily readable and searchable by constituents).
 
 Moreover, no tools exist to support the comparison of local government issues between cities.
 
@@ -29,7 +29,7 @@ Volunteers with backgrounds in and/or interest in learning the following are hig
 * database management
 * natural language processing / text wranglers
 
-At present, our focus is to develop the underlying scraping software/scripts for the database, but also welcome researchers/analysts interested in local politics and downstream analyses with the data.
+At present, our focus is to develop the underlying scraping tools for the database (volunteers wanting to contribute scrapers wanted!), but also welcome researchers/analysts interested in local politics and downstream analyses with the data.
 
 Future analyses possible with our database may include:
 
@@ -47,10 +47,10 @@ To begin, we've selected twenty-two cities in the San Francisco Bay Area as init
 ## Architecture
 View very rough draft / 1st proposal [here](./design_doc.png).
 
-As of June 2017, we're currently writing scrapers to identify meetings/agenda metadata and beginning to test the database locally (i.e., top/left side of design document). Next steps will be to develop the queue to process the documents. (Note: Some examples of city council documents for testing .pdf --> text tools are available at this public [Dropbox link](https://www.dropbox.com/sh/9bxu3ruvjsrir7o/AABg4uCiKczYK4gzD6OV_hbOa). This initial set of manually collected .pdfs will be updated soon with documents collected using the scrapers.)
+As of June 2017, we're currently writing scrapers to identify meetings/agenda metadata and beginning to test the database locally (i.e., top/left side of design document). Next steps will be to develop the queue to process the documents. (Note: Some examples of city council documents for testing .pdf --> text tools are available at this public [Dropbox link](https://www.dropbox.com/sh/9bxu3ruvjsrir7o/AABg4uCiKczYK4gzD6OV_hbOa). (This initial set of manually collected .pdfs will be updated soon with documents collected in an automatic fashion using the scrapers.)
 
 After validating this architecture locally, we'll begin steps to deploy the database online (aiming for late summer 2017). Much later, we aim to develop a front-end interface for improving database access for users with less technical background.
 
 ## Related Work
-* https://github.com/datamade/nyc-councilmatic (fully searchable council meetings and more for New York City)
+* https://github.com/datamade/nyc-councilmatic (fully searchable council meetings and more for New York City; potentially to leverage portions of Councilmatic for updates on city council meetings later)
 * http://opencivicdata.readthedocs.io/en/latest/ (schemas for metadata on government entities -- used by #town-council when possible)
