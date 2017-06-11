@@ -93,7 +93,7 @@ def get_or_create_url_stage():
     # db = 'postgresql://cc@localhost/cc'
     engine = create_engine(db)
     metadata = MetaData(db)
-    table_name = 'tc_url_stage'
+    table_name = 'url_stage'
     data_table = Table(
             table_name,
             metadata,

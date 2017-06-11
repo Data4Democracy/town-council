@@ -4,7 +4,8 @@ import requests
 from sqlalchemy import create_engine
 from sqlalchemy import Column, Integer, Date, DateTime, MetaData, Table, String
 from sqlalchemy import ForeignKey
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.sql import select
+
 
 STORAGE_ENGINE = {
     'drivername': 'postgresql',
@@ -55,7 +56,42 @@ class Document():
 
 
 def links_to_process():
-    pass
+    engine, _ = setup_db()
+    conn = engine.connect()
+    url_stage = get_url_stage()
+    catalog = get_catalog()
+
+    select_all_url_stage = select([url_stage])
+    for url_record in conn.execute(select_all_url_stage).fetchall():
+        select_by_hash = select([catalog]). \
+            where(catalog.c.url_hash == url_record.url_hash)
+        result = conn.execute(select_by_hash).first()
+        if result:
+            print(result)
+            # Add to event document list with catalog ID
+        else:
+            entry = dict(
+                url=url_record.url,
+                url_hash=url_record.url_hash,
+                location='placeholder',
+                filename=f'{url_record.url_hash}.pdf')
+
+            # Download
+            # Push to S3?
+            # Add to catalog
+            create_catalog_entry(catalog, conn, entry)
+            print(f'Added: {url_record.url_hash}')
+
+
+def create_catalog_entry(catalog, conn, entry):
+    conn.execute(
+        catalog.insert(),
+        url=entry['url'],
+        url_hash=entry['url_hash'],
+        location=entry['location'],
+        filename=entry['filename'],
+        )
+
 
 
 def setup_db():
@@ -145,5 +181,4 @@ def create_tables():
     if not engine.dialect.has_table(engine, document):
         document.create()
 
-
-create_tables()
+links_to_process()
