@@ -7,7 +7,7 @@ from council_crawler.items import Event
 from council_crawler.utils import url_to_md5
 
 
-class Dublin(scrapy.spiders.CrawlSpider):
+class Fremont(scrapy.spiders.CrawlSpider):
     name = 'fremont'
     base_url = 'https://fremont.gov/AgendaCenter/'
 
