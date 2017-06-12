@@ -13,7 +13,5 @@ def parse_date_string(date_string):
     try:
         date = parser.parse(date_string, fuzzy=True)
     except ValueError:
-        return ""
-    day = "{0:02}".format(date.day)
-    month = "{0:02}".format(date.month)
-    return "{0}-{1}-{2}".format(date.year, month, day)
+        return None
+    return date
