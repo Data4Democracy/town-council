@@ -2,9 +2,10 @@ import datetime
 from urllib.parse import urljoin
 
 import scrapy
+
 from council_crawler.items import Event
 from council_crawler.utils import url_to_md5
-
+from council_crawler.db_utils import get_place_id
 
 class Belmont(scrapy.spiders.CrawlSpider):
     name = 'belmont'
