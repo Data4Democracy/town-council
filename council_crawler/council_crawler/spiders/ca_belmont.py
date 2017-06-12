@@ -5,10 +5,11 @@ import scrapy
 
 from council_crawler.items import Event
 from council_crawler.utils import url_to_md5
-from council_crawler.db_utils import get_place_id
+
 
 class Belmont(scrapy.spiders.CrawlSpider):
     name = 'belmont'
+    ocd_division_id = 'ocd-division/country:us/state:ca/place:belmont'
 
     def start_requests(self):
 
@@ -39,6 +40,7 @@ class Belmont(scrapy.spiders.CrawlSpider):
 
             event = Event(
                 _type='event',
+                ocd_division_id=self.ocd_division_id,
                 name='Belmont, CA City Council {}'.format(meeting_type),
                 scraped_datetime=datetime.datetime.utcnow(),
                 record_date=date_time,

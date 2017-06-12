@@ -5,13 +5,11 @@ import scrapy
 
 from council_crawler.items import Event
 from council_crawler.utils import url_to_md5
-from council_crawler.db_utils import get_place_id
 
 
 class Dublin(scrapy.spiders.CrawlSpider):
     name = 'dublin'
     ocd_division_id = 'ocd-division/country:us/state:ca/place:dublin'
-    place_id = get_place_id(ocd_division_id)
 
     def start_requests(self):
 
@@ -45,7 +43,7 @@ class Dublin(scrapy.spiders.CrawlSpider):
 
             event = Event(
                 _type='event',
-                ocd_division_id='ocd-division/country:us/state:ca/place:dublin',
+                ocd_division_id=self.ocd_division_id,
                 name='Dublin, CA City Council {}'.format(meeting_type).strip(),
                 scraped_datetime=datetime.datetime.utcnow(),
                 record_date=record_date,
@@ -59,7 +57,6 @@ class Dublin(scrapy.spiders.CrawlSpider):
             documents = []
             for url in agenda_urls:
                 agenda_doc = {
-                    'media_type': 'application/pdf',
                     'url': url,
                     'url_hash': url_to_md5(url),
                     'category': 'agenda'
@@ -68,7 +65,6 @@ class Dublin(scrapy.spiders.CrawlSpider):
 
             if minutes_url:
                 minutes_doc = {
-                    'media_type': '',
                     'url': minutes_url,
                     'url_hash': url_to_md5(url),
                     'category': 'minutes'

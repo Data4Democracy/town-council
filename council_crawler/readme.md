@@ -11,27 +11,26 @@ Example of record item from [Belmont, CA](http://www.belmont.gov/city-hall/city-
 
 ```
 {
-
     "_type": "event",
-    "name": "Belmont, CA City Council Parks and Recreation Commission Meeting",
-    "scraped_datetime": "2017-06-03 11:03:44",
-    "record_date": "04/05/2017 7:00 PM ",
-    "source": "belmont",
-    "source_url": "http://www.belmont.gov/city-hall/city-government/city-meetings/-toggle-all/-npage-2",
-    "meeting_type": "Parks and Recreation Commission Meeting",
+    "ocd_division_id": "ocd-division/country:us/state:ca/place:dublin",
+    "name": "Dublin, CA City Council Regular Meeting",
+    "scraped_datetime": "2017-06-12 22:48:44",
+    "record_date": "2017-02-07",
+    "source": "dublin",
+    "source_url": "http://dublinca.gov/1604/Meetings-Agendas-Minutes-Video-on-Demand",
+    "meeting_type": "Regular Meeting",
     "documents": [
         {
-            "url": "http://belmont-ca.granicus.com/GeneratedAgendaViewer.php?event_id=2d488f17-13ff-11e7-ad57-f04da2064c47",
-            "url_hash": "8dc13790ccd0c186275c4d67ae4bf69a",
+            "url": "http://dublinca.gov/Archive.aspx?ADID=731",
+            "url_hash": "02f4a611b6e0f1b6087196354955e11b",
             "category": "agenda"
         },
         {
-            "url": "/Home/ShowDocument?id=15369",
-            "url_hash": "d88e4b232a72b0522a4cce17521654f5",
+            "url": "http://www.pbtech.org/clients/dublin_cc/dublinccm02072017.html",
+            "url_hash": "02f4a611b6e0f1b6087196354955e11b",
             "category": "minutes"
         }
     ]
-
 }
 ```
 
@@ -47,6 +46,7 @@ Changes to the Event schema will impact ALL spiders. We are open to suggestions 
 
 **Required Fields**  
 **_type:** string always set to `event`  
+**ocd_division_id:** Place's OCD division see table [here](https://github.com/Data4Democracy/town-council/blob/master/city_metadata/list_of_cities.csv)
 **name:** string describing name of event. Generally the name as it appears on the website  
 **scraped_datetime:** datetime spider ran in YYYY-MM-DD HH:MM:SS should be standardized to UTC  
 **source_url:** URL or landing page the event item was gathered from  
@@ -79,6 +79,9 @@ Example media objects
     "category": "minutes"
 }
 ```
+
+### Pipelines:
+**SaveDocumentLinkPipeline** Will create events and stage URLs for download. This does not need to be activited (comment out to turn off) while developing spiders. Once a spider is fully developed the second step is to test it with a live database connection.
 
 ### Additional settings  
 
