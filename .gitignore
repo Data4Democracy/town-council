@@ -104,3 +104,4 @@ test.json
 *.sqlite
 *.db
 council_crawler/council_crawler/scrapy_debug.py
+council_crawler/council_crawler/tests.py
