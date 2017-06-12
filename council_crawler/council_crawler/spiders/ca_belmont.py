@@ -45,7 +45,7 @@ class Belmont(scrapy.spiders.CrawlSpider):
         for row in table_body:
             meeting_type=row.xpath('.//span[@itemprop="summary"]/text()').extract_first()
             date_time = row.xpath('.//td[@class="event_datetime"]/text()').extract_first()
-            agenda_url = row.xpath('.//td[@class="event_agenda"]/a/@href').extract_first()
+            agenda_url = row.xpath('.//td[@class="event_agenda"]//a/@href').extract_first()
             event_minutes_url = row.xpath('.//td[@class="event_minutes"]/a/@href').extract_first()
 
             event = Event(
