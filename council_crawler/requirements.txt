@@ -1,2 +1,2 @@
 scrapy
-dateutil
+python-dateutil
