@@ -10,6 +10,7 @@ from council_crawler.utils import url_to_md5
 class Fremont(scrapy.spiders.CrawlSpider):
     name = 'fremont'
     base_url = 'https://fremont.gov/AgendaCenter/'
+    ocd_division_id = 'ocd-division/country:us/state:ca/place:fremont'
 
     def start_requests(self):
 
@@ -47,6 +48,7 @@ class Fremont(scrapy.spiders.CrawlSpider):
 
                 event = Event(
                     _type='event',
+                    ocd_division_id=self.ocd_division_id,
                     name='Fremont, CA City Council {}'.format(meeting_type),
                     scraped_datetime=datetime.datetime.utcnow(),
                     record_date=record_date,
@@ -61,7 +63,6 @@ class Fremont(scrapy.spiders.CrawlSpider):
                 if agenda_urls is not None:
                     for url in agenda_urls:
                         agenda_doc = {
-                            'media_type': 'application/pdf',
                             'url': url,
                             'url_hash': url_to_md5(url),
                             'category': 'agenda'
@@ -72,7 +73,6 @@ class Fremont(scrapy.spiders.CrawlSpider):
                     if self.base_url not in minutes_url:
                         minutes_url = urljoin(self.base_url, minutes_url)
                     minutes_doc = {
-                        'media_type': 'application/pdf',
                         'url': url,
                         'url_hash': url_to_md5(minutes_url),
                         'category': 'minutes'

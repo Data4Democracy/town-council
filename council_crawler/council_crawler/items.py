@@ -13,6 +13,7 @@ class Event(scrapy.Item):
     # Required
     _type = scrapy.Field()
     name = scrapy.Field()
+    ocd_division_id = scrapy.Field()
     scraped_datetime = scrapy.Field()
     source_url = scrapy.Field()
     source = scrapy.Field()

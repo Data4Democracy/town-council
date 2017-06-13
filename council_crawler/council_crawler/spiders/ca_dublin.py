@@ -9,6 +9,7 @@ from council_crawler.utils import url_to_md5
 
 class Dublin(scrapy.spiders.CrawlSpider):
     name = 'dublin'
+    ocd_division_id = 'ocd-division/country:us/state:ca/place:dublin'
 
     def start_requests(self):
 
@@ -42,12 +43,13 @@ class Dublin(scrapy.spiders.CrawlSpider):
 
             event = Event(
                 _type='event',
-                name='Dublin, CA City Council {}'.format(meeting_type),
+                ocd_division_id=self.ocd_division_id,
+                name='Dublin, CA City Council {}'.format(meeting_type).strip(),
                 scraped_datetime=datetime.datetime.utcnow(),
                 record_date=record_date,
-                source=self.name,
-                source_url=response.url,
-                meeting_type=meeting_type,
+                source=self.name.strip(),
+                source_url=response.url.strip(),
+                meeting_type=meeting_type.strip(),
                 )
 
             # This block should be cleaned up later
@@ -55,7 +57,6 @@ class Dublin(scrapy.spiders.CrawlSpider):
             documents = []
             for url in agenda_urls:
                 agenda_doc = {
-                    'media_type': 'application/pdf',
                     'url': url,
                     'url_hash': url_to_md5(url),
                     'category': 'agenda'
@@ -64,7 +65,6 @@ class Dublin(scrapy.spiders.CrawlSpider):
 
             if minutes_url:
                 minutes_doc = {
-                    'media_type': 'application/pdf',
                     'url': minutes_url,
                     'url_hash': url_to_md5(url),
                     'category': 'minutes'
