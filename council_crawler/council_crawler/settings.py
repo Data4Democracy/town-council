@@ -65,7 +65,8 @@ ROBOTSTXT_OBEY = True
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    # 'council_crawler.pipelines.SaveDocumentLinkPipeline': 300,
+    'council_crawler.pipelines.CreateEventPipeline': 250,
+    'council_crawler.pipelines.StageDocumentLinkPipeline': 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

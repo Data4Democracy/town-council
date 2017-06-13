@@ -64,7 +64,7 @@ def get_event_id(event, place_id, engine):
         """
         )
 
-    # Check does event already exists
+    # Check if event already exists
     with engine.connect() as conn:
         result = conn.execute(
             stmt,
