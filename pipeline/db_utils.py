@@ -9,7 +9,7 @@ STORAGE_ENGINE = {
     'drivername': 'postgresql',
     'host': 'localhost',
     # 'port': '5432',
-    'username': 'cc',
+    'username': 'Username',
     # 'password': 'YOUR_PASSWORD',
     'database': 'town_council'
 }
