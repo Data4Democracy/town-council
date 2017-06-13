@@ -172,26 +172,3 @@ def setup_db():
     metadata = MetaData(db)
 
     return engine, metadata
-
-def create_tables():
-    engine, metadata = setup_db()
-
-    url_stage = get_url_stage()
-    url_stage_hist = get_url_stage_hist()
-    catalog = get_catalog()
-    place = get_place()
-    document = get_document()
-    event = get_event()
-
-    if not engine.dialect.has_table(engine, url_stage):
-        url_stage.create()
-    if not engine.dialect.has_table(engine, catalog):
-        catalog.create()
-    if not engine.dialect.has_table(engine, url_stage_hist):
-        url_stage_hist.create()
-    if not engine.dialect.has_table(engine, place):
-        place.create()
-    if not engine.dialect.has_table(engine, event):
-        event.create()
-    if not engine.dialect.has_table(engine, document):
-        document.create()

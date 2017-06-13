@@ -90,26 +90,5 @@ Read more about scrapy pipelines [here](https://doc.scrapy.org/en/latest/topics/
 
 ### Additional settings  
 
-Work in progress. Currently supports sqlite & postgresql.
+`STORAGE_ENGINE` is a sqlalchemy [database url](http://docs.sqlalchemy.org/en/latest/core/engines.html) used to create a database connection.
 
-`STORAGE_ENGINE` is a dictionary containing the connection details needed to connect/create database used by `SaveDocumentLinkPipeline` to store document links the spiders have collected.
-
-```
-# sqlite template
-STORAGE_ENGINE = {
-    'drivername': 'sqlite',
-    'database': 'town_council.sqlite'
-}
-```
-
-```
-# postgresql template
-STORAGE_ENGINE = {
-    'drivername': 'postgresql',
-    'host': 'localhost',
-    'port': '5432',
-    'username': 'USERNAME',
-    'password': 'YOUR_PASSWORD',
-    'database': 'town_council'
-}
-```
