@@ -81,30 +81,14 @@ Example media objects
 ```
 
 ### Pipelines:
-**SaveDocumentLinkPipeline** Will create events and stage URLs for download. This does not need to be activited (comment out to turn off) while developing spiders. Once a spider is fully developed the second step is to test it with a live database connection.
+Read more about scrapy pipelines [here](https://doc.scrapy.org/en/latest/topics/item-pipeline.html)
+
+**ValidateRecordDatePipeline:** Drop events if the `record_date` is not a valid python `datetime.date` object.
+
+**CreateEventPipeline:**: Process events returned by the spiders and create a database record for each event if it does not exists. Requires database connection. This does not need to be activited (comment out to turn off) while developing spiders. Once a spider is fully developed the second step is to test it with a live database connection.  
+**StageDocumentLinkPipeline:** Process document links returned by the spiders and stage link for downstream processing. Requires database connection. This does not need to be activited (comment out to turn off) while developing spiders. Once a spider is fully developed the second step is to test it with a live database connection.  
 
 ### Additional settings  
 
-Work in progress. Currently supports sqlite & postgresql.
+`STORAGE_ENGINE` is a sqlalchemy [database url](http://docs.sqlalchemy.org/en/latest/core/engines.html) used to create a database connection.
 
-`STORAGE_ENGINE` is a dictionary containing the connection details needed to connect/create database used by `SaveDocumentLinkPipeline` to store document links the spiders have collected.
-
-```
-# sqlite template
-STORAGE_ENGINE = {
-    'drivername': 'sqlite',
-    'database': 'town_council.sqlite'
-}
-```
-
-```
-# postgresql template
-STORAGE_ENGINE = {
-    'drivername': 'postgresql',
-    'host': 'localhost',
-    'port': '5432',
-    'username': 'USERNAME',
-    'password': 'YOUR_PASSWORD',
-    'database': 'town_council'
-}
-```

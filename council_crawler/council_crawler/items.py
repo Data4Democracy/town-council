@@ -17,8 +17,8 @@ class Event(scrapy.Item):
     scraped_datetime = scrapy.Field()
     source_url = scrapy.Field()
     source = scrapy.Field()
+    record_date = scrapy.Field()
 
     # Optional - add if available
-    record_date = scrapy.Field()
     documents = scrapy.Field() # List of document dicts
     meeting_type = scrapy.Field()
