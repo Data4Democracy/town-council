@@ -7,6 +7,7 @@ from council_crawler.db_utils import stage_url, get_or_create_event
 
 
 class ValidateRecordDatePipeline(object):
+    """Validate record_date is valid date time"""
     def process_item(self, item, spider):
         record_date = item['record_date']
         if isinstance(record_date, datetime.date):

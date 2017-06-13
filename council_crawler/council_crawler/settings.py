@@ -92,22 +92,7 @@ ITEM_PIPELINES = {
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
 
-# PG template
-STORAGE_ENGINE = {
-    'drivername': 'postgresql',
-    'host': 'localhost',
-    # 'port': '5432',
-    'username': 'cc',
-    # 'password': 'YOUR_PASSWORD',
-    'database': 'town_council'
-}
-
-# sqlite template
-# STORAGE_ENGINE = {
-#     'drivername': 'sqlite',
-#     # 'host': 'localhost',
-#     # 'port': '5432',
-#     # 'username': 'cc',
-#     # 'password': 'YOUR_PASSWORD',
-#     'database': 'town_council'
-# }
+# Standard sqlalchemy resource identifier
+# http://docs.sqlalchemy.org/en/latest/core/engines.html
+# STORAGE_ENGINE = 'postgresql://cc@localhost/town_council'
+STORAGE_ENGINE = 'sqlite:///test_sqlite.sqlite'
