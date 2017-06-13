@@ -83,6 +83,8 @@ Example media objects
 ### Pipelines:
 Read more about scrapy pipelines [here](https://doc.scrapy.org/en/latest/topics/item-pipeline.html)
 
+**ValidateRecordDatePipeline:** Drop events if the `record_date` is not a valid python `datetime.date` object.
+
 **CreateEventPipeline:**: Process events returned by the spiders and create a database record for each event if it does not exists. Requires database connection. This does not need to be activited (comment out to turn off) while developing spiders. Once a spider is fully developed the second step is to test it with a live database connection.  
 **StageDocumentLinkPipeline:** Process document links returned by the spiders and stage link for downstream processing. Requires database connection. This does not need to be activited (comment out to turn off) while developing spiders. Once a spider is fully developed the second step is to test it with a live database connection.  
 

@@ -4,7 +4,7 @@ from urllib.parse import urljoin
 import scrapy
 
 from council_crawler.items import Event
-from council_crawler.utils import url_to_md5
+from council_crawler.utils import url_to_md5, parse_date_string
 
 
 class Belmont(scrapy.spiders.CrawlSpider):
@@ -43,7 +43,7 @@ class Belmont(scrapy.spiders.CrawlSpider):
                 ocd_division_id=self.ocd_division_id,
                 name='Belmont, CA City Council {}'.format(meeting_type),
                 scraped_datetime=datetime.datetime.utcnow(),
-                record_date=date_time,
+                record_date=parse_date_string(date_time),
                 source=self.name,
                 source_url=response.url,
                 meeting_type=meeting_type
