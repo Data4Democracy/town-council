@@ -98,7 +98,7 @@ python create_tables.py
 Enter OCD_ID of spider you wish to test: ocd-division/country:us/state:ca/place:belmont
 ```
 
-Run your cralwer Ex: `scrapy crawl belmont` (Make sure you the `CreateEventPipeline'` & `'StageDocumentLinkPipeline' pipelines are active in the `settings.py` file)
+Run your cralwer Ex: `scrapy crawl belmont` (Make sure you the `CreateEventPipeline'` & `'StageDocumentLinkPipeline'` pipelines are active in the `settings.py` file)
 
 Your spider output should be stored in the local database called `test_sqlite.sqlite` (if you used default settings)
 
