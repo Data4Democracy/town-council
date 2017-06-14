@@ -89,7 +89,7 @@ Read more about scrapy pipelines [here](https://doc.scrapy.org/en/latest/topics/
 **StageDocumentLinkPipeline:** Process document links returned by the spiders and stage link for downstream processing. Requires database connection. This does not need to be activited (comment out to turn off) while developing spiders. Once a spider is fully developed the second step is to test it with a live database connection.  
 
 
-### Database Setup: & Exampl Usage
+### Database Setup: & Example Usage
 You can setup the required database & associated tables by running the `create_tables.py` script found in the `town-council/council_crawler`. When you run the script it will prompt you for the OCD_ID of the spider you are testing, this should be the full OCD_ID found in [here](https://github.com/Data4Democracy/town-council/blob/master/city_metadata/list_of_cities.csv) make sure this matches the value your spider is passing in the `ocd_division_id` field. ex `ocd-division/country:us/state:ca/place:belmont` (do not surround in quotes). 
 
 Example useage
