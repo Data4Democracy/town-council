@@ -82,7 +82,7 @@ Example media objects
 
 ### Pipelines:
 Read more about scrapy pipelines [here](https://doc.scrapy.org/en/latest/topics/item-pipeline.html)
-
+**ValidateOCDIDPipeline:** Drop any events if `ocd_division_id` is not populated.  
 **ValidateRecordDatePipeline:** Drop events if the `record_date` is not a valid python `datetime.date` object.
 
 **CreateEventPipeline:**: Process events returned by the spiders and create a database record for each event if it does not exists. Requires database connection. This does not need to be activited (comment out to turn off) while developing spiders. Once a spider is fully developed the second step is to test it with a live database connection.  
@@ -90,43 +90,13 @@ Read more about scrapy pipelines [here](https://doc.scrapy.org/en/latest/topics/
 
 
 ### Database Setup: & Example Usage
-You can setup the required database & associated tables by running the `create_tables.py` script found in the `town-council/council_crawler`. When you run the script it will prompt you for the OCD_ID of the spider you are testing, this should be the full OCD_ID found in [here](https://github.com/Data4Democracy/town-council/blob/master/city_metadata/list_of_cities.csv) make sure this matches the value your spider is passing in the `ocd_division_id` field. ex `ocd-division/country:us/state:ca/place:belmont` (do not surround in quotes). 
-
-Example useage
-```
-python create_tables.py
-Enter OCD_ID of spider you wish to test: ocd-division/country:us/state:ca/place:belmont
-```
+If activated `CreateEventPipeline` and `StageDocumentLinkPipeline` will automatically create a sqlite database for testing purposes.
 
 Run your cralwer Ex: `scrapy crawl belmont` (Make sure you the `CreateEventPipeline'` & `'StageDocumentLinkPipeline'` pipelines are active in the `settings.py` file)
 
 Your spider output should be stored in the local database called `test_sqlite.sqlite` (if you used default settings)
 
 To explore the data you can use the sqlite3 CLI by typing `sqlite3` hit enter then `.open test_sqlite.sqlite` (or whatever your db name is). If you prefer, there are many GUI options as well like this [firefox Add-On](https://addons.mozilla.org/en-US/firefox/addon/sqlite-manager/)
-
-
-Check events
-```
-sqlite> select * from event limit 5;
-1|1|Belmont, CA City Council Planning Commission Meeting|2017-06-14 11:01:43.571595|2017-12-19|belmont|http://www.belmont.gov/city-hall/city-government/city-meetings/-toggle-all|Planning Commission Meeting
-2|1|Belmont, CA City Council Planning Commission Meeting|2017-06-14 11:01:43.601113|2017-12-05|belmont|http://www.belmont.gov/city-hall/city-government/city-meetings/-toggle-all|Planning Commission Meeting
-3|1|Belmont, CA City Council Planning Commission Meeting|2017-06-14 11:01:43.619333|2017-11-21|belmont|http://www.belmont.gov/city-hall/city-government/city-meetings/-toggle-all|Planning Commission Meeting
-4|1|Belmont, CA City Council Planning Commission Meeting|2017-06-14 11:01:43.637540|2017-11-07|belmont|http://www.belmont.gov/city-hall/city-government/city-meetings/-toggle-all|Planning Commission Meeting
-5|1|Belmont, CA City Council Planning Commission Meeting|2017-06-14 11:01:43.655593|2017-10-17|belmont|http://www.belmont.gov/city-hall/city-government/city-meetings/-toggle-all|Planning Commission Meeting
-```
-
-Check document URLs
-```
-sqlite> select * from url_stage;
-1|ocd-division/country:us/state:ca/place:belmont|Belmont, CA City Council City Council Meeting|2017-07-11|/city-hall/city-government/city-meetings/-toggle-all/-item-5065|d6c964939b81874a6fcb0dd19c9a2c8c|agenda|2017-06-14 07:01:43.834660
-2|ocd-division/country:us/state:ca/place:belmont|Belmont, CA City Council City Council Meeting|2017-06-27|/city-hall/city-government/city-meetings/-toggle-all/-item-5057|0286667327ca256c459ee382349a3635|agenda|2017-06-14 07:01:43.882374
-3|ocd-division/country:us/state:ca/place:belmont|Belmont, CA City Council City Council Special Meeting (Measure I Interviews)|2017-06-19|/city-hall/city-government/city-meetings/-toggle-all/-item-5063|7c818b339ff14752b8fed8150ec600fa|agenda|2017-06-14 07:01:43.929106
-4|ocd-division/country:us/state:ca/place:belmont|Belmont, CA City Council City Council Meeting|2017-06-13|https://belmont-ca.granicus.com/GeneratedAgendaViewer.php?event_id=424|17bddda2de199e5c0ea7c3956bf206aa|agenda|2017-06-14 07:01:43.955555
-5|ocd-division/country:us/state:ca/place:belmont|Belmont, CA City Council City Council Special Meeting (Closed Session)|2017-06-13|http://belmont-ca.granicus.com/GeneratedAgendaViewer.php?view_id=2&event_id=423|ef0331a277ef8cee0f6e8b2db6828fcf|agenda|2017-06-14 07:01:43.982026
-6|ocd-division/country:us/state:ca/place:belmont|Belmont, CA City Council Parks and Recreation Commission Meeting|2017-06-07|http://belmont-ca.granicus.com/GeneratedAgendaViewer.php?event_id=8dfd98d2-464c-11e7-b343-f04da2064c47|5d2177d70cb1a4294fb36a7e642f85c0|agenda|2017-06-14 07:01:44.008042
-```
-
-Note: this process creates a database based on `STORAGE_ENGINE` value in `settings.py` (see below).
 
 ### Additional settings  
 
