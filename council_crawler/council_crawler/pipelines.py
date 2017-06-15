@@ -38,8 +38,7 @@ class CreateEventPipeline(object):
 
     def process_item(self, event, spider):
         if isinstance(event, Event):
-            session = self.Session()
-
+            # Create event
             event_record = models.EventStage(
                 ocd_division_id = event['ocd_division_id'],
                 name=event['name'],
@@ -50,6 +49,7 @@ class CreateEventPipeline(object):
                 meeting_type=event['meeting_type']
                 )
 
+            session = self.Session()
             try:
                 session.add(event_record)
                 session.commit()
@@ -70,8 +70,6 @@ class StageDocumentLinkPipeline(object):
 
     def process_item(self, event, spider):
         if isinstance(event, Event):
-            session = self.Session()
-
             # Save each document link attached to event
             for doc in event['documents']:
                 doc_record = models.UrlStage(
@@ -83,6 +81,7 @@ class StageDocumentLinkPipeline(object):
                     category=doc['category'],
                 )
 
+                session = self.Session()
                 try:
                     session.add(doc_record)
                     session.commit()

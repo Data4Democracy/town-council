@@ -90,13 +90,17 @@ Read more about scrapy pipelines [here](https://doc.scrapy.org/en/latest/topics/
 
 
 ### Database Setup: & Example Usage
-If activated `CreateEventPipeline` and `StageDocumentLinkPipeline` will automatically create a sqlite database for testing purposes.
+If `CreateEventPipeline` and `StageDocumentLinkPipeline` are activated this process will automatically create a sqlite database for testing purposes.
 
 Run your cralwer Ex: `scrapy crawl belmont` (Make sure you the `CreateEventPipeline'` & `'StageDocumentLinkPipeline'` pipelines are active in the `settings.py` file)
 
-Your spider output should be stored in the local database called `test_sqlite.sqlite` (if you used default settings)
+Your spider output should be stored in the local database called `test_db.sqlite` (if you used default settings)
 
 To explore the data you can use the sqlite3 CLI by typing `sqlite3` hit enter then `.open test_sqlite.sqlite` (or whatever your db name is). If you prefer, there are many GUI options as well like this [firefox Add-On](https://addons.mozilla.org/en-US/firefox/addon/sqlite-manager/)
+
+`event_stage` table will have all the events
+
+`url_stage` should have all the document urls
 
 ### Additional settings  
 

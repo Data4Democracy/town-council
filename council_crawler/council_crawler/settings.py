@@ -96,4 +96,4 @@ ITEM_PIPELINES = {
 # Standard sqlalchemy resource identifier
 # http://docs.sqlalchemy.org/en/latest/core/engines.html
 # STORAGE_ENGINE = 'postgresql://cc@localhost/town_council'
-STORAGE_ENGINE = 'sqlite:///test_sqlite.sqlite'
+STORAGE_ENGINE = 'sqlite:///test_db.sqlite'
