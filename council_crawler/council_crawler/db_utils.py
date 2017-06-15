@@ -7,11 +7,18 @@ from sqlalchemy import ForeignKey
 from sqlalchemy import sql
 
 
+def setup_db():
+    """Setup database specified in STORAGE_ENGINE in settings.py"""
+    db = get_project_settings().get('STORAGE_ENGINE')
+    engine = create_engine(db)
+    metadata = MetaData(db)
+
+    return engine, metadata
+
+
 def stage_url(document, event):
     """Stage URL in postgres database"""
-
-    engine, _ = setup_db()
-    staging_table = get_url_stage()
+    staging_table = Table('url_stage', metadata, autoload=True)
 
     with engine.connect() as conn:
         conn.execute(
@@ -27,8 +34,7 @@ def stage_url(document, event):
 
 def get_or_create_event(event):
     """Create event and return new ID or return ID if exists"""
-    engine, _ = setup_db()
-    event_table = get_event()
+    event_table = Table('event', metadata, autoload=True)
     place_id = get_place_id(event['ocd_division_id'])
     event_id = get_event_id(event, place_id, engine)
 
@@ -84,8 +90,7 @@ def get_event_id(event, place_id, engine):
 
 
 def get_place_id(ocd_division_id):
-    engine, _ = setup_db()
-    place_table = get_place()
+    place_table = Table('place', metadata, autoload=True)
 
     with engine.connect() as conn:
         by_ocd_id = sql.select([place_table.c.id]) \
@@ -95,9 +100,13 @@ def get_place_id(ocd_division_id):
     return place_id.id
 
 
-def get_url_stage():
+def new_get_place(metadata):
+    place = Table('place', metadata, autoload=True)
+    return place
+
+
+def define_url_stage(metadata, engine):
     """Return URL staging table"""
-    _, metadata = setup_db()
     table_name = 'url_stage'
 
     url_stage_table = Table(
@@ -116,10 +125,9 @@ def get_url_stage():
     return url_stage_table
 
 
-def get_event():
+def define_event(metadata, engine):
     """Return event table"""
-    _, metadata = setup_db()
-    place = get_place()
+    place = Table('place', metadata, autoload=True)
     table_name = 'event'
 
     event_table = Table(
@@ -139,9 +147,8 @@ def get_event():
     return event_table
 
 
-def get_place():
+def define_place(metadata, engine):
     """Return place table"""
-    _, metadata = setup_db()
     table_name = 'place'
 
     place_table = Table(
@@ -163,12 +170,3 @@ def get_place():
     )
 
     return place_table
-
-
-def setup_db():
-    """Setup database specified in STORAGE_ENGINE in settings.py"""
-    db = get_project_settings().get('STORAGE_ENGINE')
-    engine = create_engine(db)
-    metadata = MetaData(db)
-
-    return engine, metadata
