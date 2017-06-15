@@ -4,24 +4,35 @@ from scrapy.exceptions import DropItem
 from sqlalchemy.orm import sessionmaker
 
 from council_crawler.items import Event
-from council_crawler.db_utils import stage_url, get_or_create_event
 from council_crawler import models
+
+
+class ValidateOCDIDPipeline(object):
+    """Validate OCD ID"""
+    def process_item(self, event, spider):
+        ocd_id = event.get('ocd_division_id')
+        if isinstance(ocd_id, str):
+            # TODO add more validation on formating
+            if ocd_id.startswith('ocd-'):
+                return event
+        else:
+            raise DropItem("ocd_division_id is invalid")
 
 
 class ValidateRecordDatePipeline(object):
     """Validate record_date is valid date time"""
-    def process_item(self, item, spider):
-        record_date = item['record_date']
+    def process_item(self, event, spider):
+        record_date = event['record_date']
         if isinstance(record_date, datetime.date):
-            return item
+            return event
         else:
             raise DropItem(f"{record_date} is not valid datetime object")
 
 
 class CreateEventPipeline(object):
+    """Store events in staging table"""
     def __init__(self):
         engine = models.db_connect()
-        print('-------INIT INIT INIT---------')
         models.create_tables(engine)
         self.Session = sessionmaker(bind=engine)
 
@@ -51,10 +62,33 @@ class CreateEventPipeline(object):
 
 
 class StageDocumentLinkPipeline(object):
-    """Stores links to media"""
-    def process_item(self, item, spider):
-        if isinstance(item, Event):
-            for doc in item['documents']:
-                stage_url(doc, item)
-        return item
+    """Store links to media"""
+    def __init__(self):
+        engine = models.db_connect()
+        models.create_tables(engine)
+        self.Session = sessionmaker(bind=engine)
+
+    def process_item(self, event, spider):
+        if isinstance(event, Event):
+            session = self.Session()
+
+            # Save each document link attached to event
+            for doc in event['documents']:
+                doc_record = models.UrlStage(
+                    ocd_division_id=event['ocd_division_id'],
+                    event=event['name'],
+                    event_date=event['record_date'],
+                    url=doc['url'],
+                    url_hash=doc['url_hash'],
+                    category=doc['category'],
+                )
+
+                try:
+                    session.add(doc_record)
+                    session.commit()
+                except:
+                    raise
+                finally:
+                    session.close()
+        return event
 
