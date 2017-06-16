@@ -7,6 +7,19 @@ from council_crawler.items import Event
 from council_crawler import models
 
 
+class ValidateRequiredFields(object):
+    """Validate all required fields are populated"""
+    def process_item(self, event, spider):
+        required_fields = [
+            '_type', 'name', 'ocd_division_id', 'scraped_datetime',
+            'source_url', 'source', 'record_date']
+
+        for field in required_fields:
+            if field not in event:
+                raise DropItem(f"{field} is required")
+        return event
+
+
 class ValidateOCDIDPipeline(object):
     """Validate OCD ID"""
     def process_item(self, event, spider):
@@ -46,7 +59,7 @@ class CreateEventPipeline(object):
                 record_date=event['record_date'],
                 source=event['source'],
                 source_url=event['source_url'],
-                meeting_type=event['meeting_type']
+                meeting_type=event.get('meeting_type', None)
                 )
 
             session = self.Session()
@@ -71,7 +84,7 @@ class StageDocumentLinkPipeline(object):
     def process_item(self, event, spider):
         if isinstance(event, Event):
             # Save each document link attached to event
-            for doc in event['documents']:
+            for doc in event.get('documents', []):
                 doc_record = models.UrlStage(
                     ocd_division_id=event['ocd_division_id'],
                     event=event['name'],
