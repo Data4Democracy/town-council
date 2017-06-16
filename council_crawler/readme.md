@@ -49,11 +49,11 @@ Changes to the Event schema will impact ALL spiders. We are open to suggestions 
 **ocd_division_id:** Place's OCD division see table [here](https://github.com/Data4Democracy/town-council/blob/master/city_metadata/list_of_cities.csv). 
 **name:** string describing name of event. Generally the name as it appears on the website  
 **scraped_datetime:** datetime spider ran in YYYY-MM-DD HH:MM:SS should be standardized to UTC  
+**record_date:** Start date/time of meeting if it can be determined YYYY-MM-DD HH:MM:SS should be standardized to UTC  
 **source_url:** URL or landing page the event item was gathered from  
 **source:** spider name  
 
 **Optional Fields:**  
-**record_date:** Start date/time of meeting if it can be determined YYYY-MM-DD HH:MM:SS should be standardized to UTC  
 **documents:** list of `media_items` (see below)  
 **meeting_type:** General text name of meeting. Ex: Town Council General Meeting or Parks and Recreation Commission Meeting  
 
@@ -81,11 +81,14 @@ Example media objects
 ```
 
 ### Pipelines:
-Read more about scrapy pipelines [here](https://doc.scrapy.org/en/latest/topics/item-pipeline.html)
-**ValidateOCDIDPipeline:** Drop any events if `ocd_division_id` is not populated.  
-**ValidateRecordDatePipeline:** Drop events if the `record_date` is not a valid python `datetime.date` object.
+Read more about scrapy pipelines [here](https://doc.scrapy.org/en/latest/topics/item-pipeline.html)  
 
-**CreateEventPipeline:**: Process events returned by the spiders and create a database record for each event if it does not exists. Requires database connection. This does not need to be activited (comment out to turn off) while developing spiders. Once a spider is fully developed the second step is to test it with a live database connection.  
+**ValidateRequiredFields**: Checks all required fields are populated.  
+**ValidateOCDIDPipeline:** Drop any events if `ocd_division_id` format is incorrect (needs improvements).  
+**ValidateRecordDatePipeline:** Drop events if the `record_date` is not a valid python `datetime.date` object.  
+
+
+**CreateEventPipeline:** Process events returned by the spiders and create a database record for each event if it does not exists. Requires database connection. This does not need to be activited (comment out to turn off) while developing spiders. Once a spider is fully developed the second step is to test it with a live database connection.  
 **StageDocumentLinkPipeline:** Process document links returned by the spiders and stage link for downstream processing. Requires database connection. This does not need to be activited (comment out to turn off) while developing spiders. Once a spider is fully developed the second step is to test it with a live database connection.  
 
 
@@ -96,11 +99,12 @@ Run your cralwer Ex: `scrapy crawl belmont` (Make sure you the `CreateEventPipel
 
 Your spider output should be stored in the local database called `test_db.sqlite` (if you used default settings)
 
-To explore the data you can use the sqlite3 CLI by typing `sqlite3` hit enter then `.open test_sqlite.sqlite` (or whatever your db name is). If you prefer, there are many GUI options as well like this [firefox Add-On](https://addons.mozilla.org/en-US/firefox/addon/sqlite-manager/)
+To explore the data you can use the sqlite3 CLI by typing `sqlite3` hit enter then `.open test_db.sqlite` (or whatever your db name is). If you prefer, there are many GUI options as well like this [firefox Add-On](https://addons.mozilla.org/en-US/firefox/addon/sqlite-manager/)
 
-`event_stage` table will have all the events
+`event_stage`: table will have all the events
 
-`url_stage` should have all the document urls
+`url_stage`: should have all the document urls
+
 
 ### Additional settings  
 
