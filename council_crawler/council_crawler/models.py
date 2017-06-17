@@ -25,7 +25,7 @@ class Place(DeclarativeBase):
     __tablename__ = 'place'
 
     id = Column(Integer, primary_key=True)
-    place = Column(String)
+    name = Column(String)
     type_ = Column(String)
     state = Column(String)
     country = Column(String)
@@ -59,11 +59,10 @@ class EventStage(DeclarativeBase):
 
     id = Column(Integer, primary_key=True)
     ocd_division_id = Column(String)
-    # place_id = Column('place_id', Integer, ForeignKey('place.id'),
-    #                   nullable=False, index=True)
     name = Column(String)
     scraped_datetime = Column(DateTime, default=datetime.datetime.now)
     record_date = Column(Date)
     source = Column(String)
     source_url = Column(String)
     meeting_type = Column(String)
+
