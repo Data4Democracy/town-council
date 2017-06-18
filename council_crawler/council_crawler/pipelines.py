@@ -53,7 +53,7 @@ class CreateEventPipeline(object):
         if isinstance(event, Event):
             # Create event
             event_record = models.EventStage(
-                ocd_division_id = event['ocd_division_id'],
+                ocd_division_id=event['ocd_division_id'],
                 name=event['name'],
                 scraped_datetime=event['scraped_datetime'],
                 record_date=event['record_date'],
