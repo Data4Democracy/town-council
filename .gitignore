@@ -97,14 +97,20 @@ test.json
 # Mac OS X files
 .DS_Store
 
+# VS Code
+.vscode/launch.json
+
 # Pycharm
 ./idea
 
 # Tmp DBs
 *.sqlite
 *.db
+
+# Debug files
 council_crawler/council_crawler/scrapy_debug.py
 council_crawler/council_crawler/tests.py
 
 # test data directory
 */data/
+

@@ -98,3 +98,4 @@ ITEM_PIPELINES = {
 # http://docs.sqlalchemy.org/en/latest/core/engines.html
 # STORAGE_ENGINE = 'postgresql://cc@localhost/town_council'
 STORAGE_ENGINE = 'sqlite:////Users/cc/projects/town-council/test_db.sqlite'
+# STORAGE_ENGINE = 'sqlite:///C:/Users/andys/Documents/GitHub/town-council/test_db.sqlite'
