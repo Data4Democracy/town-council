@@ -30,7 +30,7 @@ class LegistarCms(scrapy.spiders.CrawlSpider):
             raise ValueError('state must be a two letter abbreviation.')
       
         self.formatted_city_name = '{}, {}'.format(
-            self.city_name.title(), state.upper())
+            self.city_name.capitalize(), state.upper())
         self.ocd_division_id = 'ocd-division/country:us/state:{}/place:{}'.format(
             state.lower(), self.city_name.replace(' ', '_'))
 
