@@ -23,7 +23,6 @@ class LegistarCms(scrapy.spiders.CrawlSpider):
             raise ValueError('city is required')
 
         self.city_name = city.lower()
-        self.ocd_division_id += city
 
         if not state:
             raise ValueError('state is required.')
