@@ -1,9 +1,11 @@
 import requests
 import db_utils
-from sqlalchemy.sql import select
+from sqlalchemy.orm import sessionmaker
+from models import Place, UrlStage, Event, Catalog, Document, EventStage
+from models import db_connect, create_tables
 
 
-class Document():
+class Media():
     def __init__(self, doc):
         self.working_dir = './data'
         self.doc = doc
@@ -51,69 +53,140 @@ class Document():
 
     def _store_document(self, content, content_type, url_hash):
         extension = content_type.split(';')[0].split('/')[-1]
+        file_path = self._create_fp_from_ocd_id(self.doc.ocd_division_id)
         print(extension)
         if extension == 'pdf':
-            with open(f'./data/{url_hash}.pdf', 'wb') as f:
+            with open(f'{file_path}/{url_hash}.pdf', 'wb') as f:
                 f.write(content.content)
                 return f.name
         if extension == 'html':
-            with open (f'./data/{url_hash}.html', 'w') as f:
+            with open (f'{file_path}/{url_hash}.html', 'w') as f:
                 f.write(content.text)
                 return f.name
+
+    def _create_fp_from_ocd_id(self, ocd_id):
+        elements = ocd_id.split('/')
+        country = elements[1].split(':')[-1]
+        state = elements[2].split(':')[-1]
+        place = elements[3].split(':')[-1]
+
+        return (f'./data/{country}/{state}/{place}')
+
+
+def map_document(url_record, place_id, event_id, catalog_id):
+    document = Document(
+        place_id=place_id,
+        event_id=event_id,
+        catalog_id=catalog_id,
+        url=url_record.url,
+        url_hash=url_record.url_hash,
+        media_type='',
+        category=url_record.category
+        )
+    return document
+
+
+def save_record(record):
+    engine = db_connect()
+    Session = sessionmaker(bind=engine)
+    session = Session()
+
+    try:
+        session.add(record)
+        session.commit()
+        return record.id
+    except:
+        session.rollback()
+        raise
+    finally:
+        session.close()
+        print('Session closed')
+
+
+def copy_event_from_stage(staged_event):
+    engine = db_connect()
+    Session = sessionmaker(bind=engine)
+    session = Session()
+
+    place = session.query(Place) \
+        .filter(Place.ocd_division_id == staged_event.ocd_division_id).first()
+
+    event = Event(
+        ocd_division_id=staged_event.ocd_division_id,
+        place_id=place.id,
+        name=staged_event.name,
+        scraped_datetime=staged_event.scraped_datetime,
+        record_date=staged_event.record_date,
+        source=staged_event.source,
+        source_url=staged_event.source_url,
+        meeting_type=staged_event.meeting_type
+    )
+    event = save_record(event)
+    return event
 
 
 def process_staged_urls():
     """Query download all staged URLs, Update Catalog and Document"""
 
-    # TODO Break up function
+    engine = db_connect()
+    create_tables(engine)
+    Session = sessionmaker(bind=engine)
+    session = Session()
 
-    engine, _ = db_utils.setup_db()
-    conn = engine.connect()
-    url_stage = db_utils.get_url_stage()
-    catalog = db_utils.get_catalog()
-    document_db = db_utils.get_document()
+    # for event in session.query(EventStage).all():
+    #     copy_event_from_stage(event)
 
-    select_all_url_stage = select([url_stage])
-    for url_record in conn.execute(select_all_url_stage).fetchall():
-        print(url_record)
-        place_id = db_utils.get_place_id(url_record['ocd_division_id'])
-        event_id = db_utils.get_event_id(
-            url_record['event'], url_record['event_date'], place_id, engine)
+    for url_record in session.query(UrlStage).all():
+        # print(url_record.url)
 
-        select_by_hash = select([catalog]). \
-            where(catalog.c.url_hash == url_record.url_hash)
+        place_record = session.query(Place). \
+            filter(Place.ocd_division_id == url_record.ocd_division_id).first()
+        event_record = session.query(Event). \
+            filter(Event.ocd_division_id == url_record.ocd_division_id,
+                   Event.record_date == url_record.event_date,
+                   Event.name == url_record.event).first()
+        print(f'place id: {place_record.id}\n event_id:{event_record.id}')
 
-        result = conn.execute(select_by_hash).first()
-        if result:
-            # Document already exists in catalog
-            catalog_id = result.id
-            metadata = create_document_metadata(url_record, catalog_id, place_id, event_id)
-            metadata_id = add_document_metadata(conn, document_db, metadata)
+        catalog_entry = session.query(Catalog). \
+            filter(Catalog.url_hash == url_record.url_hash).first()
+
+        # Document already exists in catalog
+        if catalog_entry:
+            catalog_id = catalog_entry.id
+            print(f'catalog_id---------{catalog_id}')
+            document = map_document(
+                url_record, place_record.id, event_record.id, catalog_id)
+            save_record(document)
             print("existing in catalog adding reference to document")
 
         else:
+            print("Does not exist")
+
             # Download and save document
-            entry = dict(
+            catalog = Catalog(
                 url=url_record.url,
                 url_hash=url_record.url_hash,
-                filename=f'{url_record.url_hash}.pdf')
+                location='placeholder',
+                filename=f'{url_record.url_hash}.pdf'
+                )
 
-            doc = Document(url_record)
+            doc = Media(url_record)
 
             # download
             result = doc.gather()
 
             # Add to doc catalog
             if result:
-                entry['location'] = result
-                catalog_id = add_catalog_entry(conn, catalog, entry)
-
+                catalog.location = result
+                catalog_id = save_record(catalog)
                 # Add document reference
-                metadata = create_document_metadata(url_record, catalog_id, place_id, event_id)
-                metadata_id = add_document_metadata(conn, document_db, metadata)
-                print(f'Added {metadata_id}: {url_record.url_hash}')
+                document = map_document(
+                    url_record, place_record.id, event_record.id, catalog_id)
+                doc_id = save_record(document)
 
-    # cleanup
+                print(f'Added {url_record.url_hash} doc_id: {doc_id}')
+
+    # # cleanup
     # archive_url_stage()
 
 

@@ -7,16 +7,35 @@ import scrapy
 from council_crawler.items import Event
 from council_crawler.utils import url_to_md5, parse_date_string
 
+class LegistarCms(scrapy.spiders.CrawlSpider):
+    name = 'legistar_cms'
+    ocd_division_id = ''
+    formatted_city_name = ''
+    city_name = ''
+    urls = []
 
-class Belmont(scrapy.spiders.CrawlSpider):
-    name = 'belmont'
-    ocd_division_id = 'ocd-division/country:us/state:ca/place:belmont'
+    def __init__(self, legistar_url='', city='', state='', *args, **kwargs):
+        super(LegistarCms, self).__init__(*args, **kwargs)
+        self.urls = [legistar_url]
+        if not self.urls:
+            raise ValueError('legistar_url is required.')
+        if not city:
+            raise ValueError('city is required')
+
+        self.city_name = city.lower()
+
+        if not state:
+            raise ValueError('state is required.')
+        if len(state) is not 2:
+            raise ValueError('state must be a two letter abbreviation.')
+      
+        self.formatted_city_name = '{}, {}'.format(
+            self.city_name.capitalize(), state.upper())
+        self.ocd_division_id = 'ocd-division/country:us/state:{}/place:{}'.format(
+            state.lower(), self.city_name.replace(' ', '_'))
 
     def start_requests(self):
-
-        urls = ['http://www.belmont.gov/city-hall/city-government/city-meetings/-toggle-all']
-
-        for url in urls:
+        for url in self.urls:
             yield scrapy.Request(url=url, callback=self.parse_archive)
 
     def parse_archive(self, response):
@@ -29,23 +48,28 @@ class Belmont(scrapy.spiders.CrawlSpider):
                     url = urljoin(archive_base_url, url)
                     full_url.append(url)
                 return full_url
-            else:
-                None
 
-        table_body = response.xpath('//table/tbody/tr')
+        table_body = response.xpath('//table[@class="rgMasterTable"]/tbody/tr')
         for row in table_body:
-            meeting_type=row.xpath('.//span[@itemprop="summary"]/text()').extract_first()
-            date_time = row.xpath('.//td[@class="event_datetime"]/text()').extract_first()
-            agenda_url = row.xpath('.//td[@class="event_agenda"]//a/@href').extract_first()
-            event_minutes_url = row.xpath('.//td[@class="event_minutes"]/a/@href').extract_first()
+            # most elements are wrapped in <font> tags that aren't
+            # visible when viewing in e.g. Chrome debugger
+            meeting_type = row.xpath('.//td[1]/font/a/font/text()').extract_first()
+            date = row.xpath('.//td[2]/font/text()').extract_first()
+            time = row.xpath('.//td[4]/font/span/font/text()').extract_first()
+            date_time = '{} {}'.format(date, time)
+            agenda_url = row.xpath('.//td[7]/font/span/a/@href').extract_first()
+            event_minutes_url = row.xpath('.//td[8]/font/span/a/font/text()').extract_first()
+            # if there are no minutes the data will be 'Not\xa0available' (with unicode space)
+            if event_minutes_url == 'Not\xa0available':
+                event_minutes_url = None
 
             event = Event(
                 _type='event',
                 ocd_division_id=self.ocd_division_id,
-                name='Belmont, CA City Council {}'.format(meeting_type),
+                name='{} City Council {}'.format(self.formatted_city_name, meeting_type),
                 scraped_datetime=datetime.datetime.utcnow(),
                 record_date=parse_date_string(date_time),
-                source=self.name,
+                source=self.city_name,
                 source_url=response.url,
                 meeting_type=meeting_type
                 )
@@ -64,7 +88,7 @@ class Belmont(scrapy.spiders.CrawlSpider):
 
             if event_minutes_url is not None:
                 # If path to minutes is relative, complete it with the base url
-                if BASE_URL not in event_minutes_url:
+                if archive_base_url not in event_minutes_url:
                     event_minutes_url = urljoin(archive_base_url, event_minutes_url)
                 minutes_doc = {
                     'url': event_minutes_url,

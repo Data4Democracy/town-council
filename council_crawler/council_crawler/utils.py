@@ -9,6 +9,8 @@ def url_to_md5(url):
 def parse_date_string(date_string):
     """find a date object in a string containing a date
     """
+    if not date_string:
+        return None
     date_string = date_string.replace("-", "/")
     try:
         date = parser.parse(date_string, fuzzy=True)

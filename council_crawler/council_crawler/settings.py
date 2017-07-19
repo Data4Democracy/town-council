@@ -65,6 +65,8 @@ ROBOTSTXT_OBEY = True
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
+    'council_crawler.pipelines.ValidateRequiredFields': 100,
+    'council_crawler.pipelines.ValidateOCDIDPipeline': 150,
     'council_crawler.pipelines.ValidateRecordDatePipeline': 200,
     'council_crawler.pipelines.CreateEventPipeline': 250,
     'council_crawler.pipelines.StageDocumentLinkPipeline': 300,
@@ -95,4 +97,4 @@ ITEM_PIPELINES = {
 # Standard sqlalchemy resource identifier
 # http://docs.sqlalchemy.org/en/latest/core/engines.html
 # STORAGE_ENGINE = 'postgresql://cc@localhost/town_council'
-STORAGE_ENGINE = 'sqlite:///test_sqlite.sqlite'
+STORAGE_ENGINE = 'sqlite:///test_db.sqlite'
