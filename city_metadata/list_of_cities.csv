@@ -1,21 +1,21 @@
-"city","state","country","display_name","ocd_division_id","city_council_url","hosting_services"
-"belmont","ca","us","belmont_ca","ocd-division/country:us/state:ca/place:belmont","http://www.belmont.gov/city-hall/city-meetings/watch-meetings-online","granicus|city"
-"berkeley","ca","us","berkeley_ca","ocd-division/country:us/state:ca/place:berkeley","http://www.ci.berkeley.ca.us/Clerk/City_Council/City_Council__Agenda_Index.aspx","granicus|city|dropbox"
-"brisbane","ca","us","brisbane_ca","ocd-division/country:us/state:ca/place:brisbane","http://brisbaneca.org/city-government/meetings","city"
-"cupertino","ca","us","cupertino_ca","ocd-division/country:us/state:ca/place:cupertino","https://cupertino.legistar.com/Calendar.aspx","legistar|laserfiche_weblink"
-"danville","ca","us","danville_ca","ocd-division/country:us/state:ca/place:danville","http://www.danville.ca.gov/Government/Public-Meetings-Agendas-Summaries/Town-Council-Meeting-Archive/","granicus|googledocs"
-"dublin","ca","us","dublin_ca","ocd-division/country:us/state:ca/place:dublin","http://dublinca.gov/1604/Meetings-Agendas-Minutes-Video-on-Demand","city|laserfiche_weblink"
-"east palo alto","ca","us","east_palo_alto_ca","ocd-division/country:us/state:ca/place:east_palo_alto","www.ci.east-palo-alto.ca.us/agendacenter","city"
-"fremont","ca","us","fremont_ca","ocd-division/country:us/state:ca/place:fremont","https://fremont.gov/AgendaCenter/","iqm2|city"
-"hayward","ca","us","hayward_ca","ocd-division/country:us/state:ca/place:hayward","https://hayward.legistar.com/Calendar.aspx","legistar|laserfiche_weblink"
-"los_altos","ca","us","los_altos_ca","ocd-division/country:us/state:ca/place:los_altos","http://www.losaltosca.gov/community/page/city-council-planning-and-transportation-commission-meetings","granicus|googledocs"
-"los_gatos","ca","us","los_gatos_ca","ocd-division/country:us/state:ca/place:los_gatos","http://www.losgatosca.gov/2148/Town-Council-Agenda-Minutes","granicus|aws"
-"moraga","ca","us","moraga_ca","ocd-division/country:us/state:ca/place:moraga","http://www.moraga.ca.us/council/about","city"
-"mountain view","ca","us","mountain_view_ca","ocd-division/country:us/state:ca/place:mountain_view","https://mountainview.legistar.com/Calendar.aspx","legistar|laserfiche_weblink"
-"orinda","ca","us","orinda_ca","ocd-division/country:us/state:ca/place:orinda","http://orindaca.iqm2.com/Citizens/Calendar.aspx","iqm2"
-"palo alto","ca","us","palo_alto_ca","ocd-division/country:us/state:ca/place:palo_alto","http://www.cityofpaloalto.org/gov/depts/cou/council_agendas.asp","city"
-"san bruno","ca","us","san_bruno_ca","ocd-division/country:us/state:ca/place:san_bruno","https://sanbruno.ca.gov/gov/elected_officials/city_council_minutes_n_agendas.htm","city"
-"san leandro","ca","us","san_leandro_ca","ocd-division/country:us/state:ca/place:san_leandro","https://sanleandro.legistar.com/Calendar.aspx","legistar"
-"san mateo","ca","us","san_mateo_ca","ocd-division/country:us/state:ca/place:san_mateo","https://cosm.legistar.com/Calendar.aspx","legistar"
-"santa clara","ca","us","santa_clara_ca","ocd-division/country:us/state:ca/place:santa_clara","http://santaclaraca.gov/government/council-meetings/view-online-meetings","sire"
-"sunnyvale","ca","us","sunnyvale_ca","ocd-division/country:us/state:ca/place:sunnyvale","https://sunnyvaleca.legistar.com/Calendar.aspx","legistar"
+city,state,country,display_name,ocd_division_id,city_council_url,hosting_services
+belmont,ca,us,ca_belmont,ocd-division/country:us/state:ca/place:belmont,http://www.belmont.gov/city-hall/city-meetings/watch-meetings-online,granicus|city
+berkeley,ca,us,ca_berkeley,ocd-division/country:us/state:ca/place:berkeley,http://www.ci.berkeley.ca.us/Clerk/City_Council/City_Council__Agenda_Index.aspx,granicus|city|dropbox
+brisbane,ca,us,ca_brisbane,ocd-division/country:us/state:ca/place:brisbane,http://brisbaneca.org/city-government/meetings,city
+cupertino,ca,us,ca_cupertino,ocd-division/country:us/state:ca/place:cupertino,https://cupertino.legistar.com/Calendar.aspx,legistar|laserfiche_weblink
+danville,ca,us,ca_danville,ocd-division/country:us/state:ca/place:danville,http://www.danville.ca.gov/Government/Public-Meetings-Agendas-Summaries/Town-Council-Meeting-Archive/,granicus|googledocs
+dublin,ca,us,ca_dublin,ocd-division/country:us/state:ca/place:dublin,http://dublinca.gov/1604/Meetings-Agendas-Minutes-Video-on-Demand,city|laserfiche_weblink
+east palo alto,ca,us,ca_east palo alto,ocd-division/country:us/state:ca/place:east_palo_alto,www.ci.east-palo-alto.ca.us/agendacenter,city
+fremont,ca,us,ca_fremont,ocd-division/country:us/state:ca/place:fremont,https://fremont.gov/AgendaCenter/,iqm2|city
+hayward,ca,us,ca_hayward,ocd-division/country:us/state:ca/place:hayward,https://hayward.legistar.com/Calendar.aspx,legistar|laserfiche_weblink
+los_altos,ca,us,ca_los_altos,ocd-division/country:us/state:ca/place:los_altos,http://www.losaltosca.gov/community/page/city-council-planning-and-transportation-commission-meetings,granicus|googledocs
+los_gatos,ca,us,ca_los_gatos,ocd-division/country:us/state:ca/place:los_gatos,http://www.losgatosca.gov/2148/Town-Council-Agenda-Minutes,granicus|aws
+moraga,ca,us,ca_moraga,ocd-division/country:us/state:ca/place:moraga,http://www.moraga.ca.us/council/about,city
+mountain view,ca,us,ca_mountain view,ocd-division/country:us/state:ca/place:mountain_view,https://mountainview.legistar.com/Calendar.aspx,legistar|laserfiche_weblink
+orinda,ca,us,ca_orinda,ocd-division/country:us/state:ca/place:orinda,http://orindaca.iqm2.com/Citizens/Calendar.aspx,iqm2
+palo alto,ca,us,ca_palo alto,ocd-division/country:us/state:ca/place:palo_alto,http://www.cityofpaloalto.org/gov/depts/cou/council_agendas.asp,city
+san bruno,ca,us,ca_san bruno,ocd-division/country:us/state:ca/place:san_bruno,https://sanbruno.ca.gov/gov/elected_officials/city_council_minutes_n_agendas.htm,city
+san leandro,ca,us,ca_san leandro,ocd-division/country:us/state:ca/place:san_leandro,https://sanleandro.legistar.com/Calendar.aspx,legistar
+san mateo,ca,us,ca_san mateo,ocd-division/country:us/state:ca/place:san_mateo,https://cosm.legistar.com/Calendar.aspx,legistar
+santa clara,ca,us,ca_santa clara,ocd-division/country:us/state:ca/place:santa_clara,http://santaclaraca.gov/government/council-meetings/view-online-meetings,sire
+sunnyvale,ca,us,ca_sunnyvale,ocd-division/country:us/state:ca/place:sunnyvale,https://sunnyvaleca.legistar.com/Calendar.aspx,legistar
