@@ -1,4 +1,5 @@
 # town-council
+
 Tools to scrape and centralize the text of meeting agendas & minutes from local city governments.
 
 **Slack:** [#p-town-council](http://datafordemocracy.slack.com/messages/p-town-council)
@@ -9,7 +10,6 @@ Engagement in local government is limited not only by physical access to city co
 Moreover, no tools exist to support the comparison of local government issues between cities.
 
 We aim to provide a **publicly available database that automatically scrapes and aggregates the text from city council agendas and minutes**, towards the goals of: (1) promoting local government accessibility/transparency and (2) establishing open-source data/software resources to track and analyze trends in local governments.
-
 
 ## Project Status / Scope
 
@@ -23,7 +23,6 @@ We have also successfully automated the document retrieval process (i.e., downlo
 
 Work-in-progress included investigating tools to extract the text from the said documents, as well as publicly setting up the database (AWS/Azure). Long-term goals include a front-end interface / search for users with less technical background.
 
-
 ## Contributing
 
 **Project Co-Leads:**
@@ -33,7 +32,7 @@ _Again, this project is on hold due to limited availability of the current co-le
 
 To join, just post in the Slack channel ([#p-town-council](http://datafordemocracy.slack.com/messages/p-town-council)) or contact one of the leads following general [D4D onboarding](https://github.com/Data4Democracy/read-this-first).
 
-For volunteers interested in writing scrapers/helping out with initial development, as a first step install , then try to run one of our scrapers using our "council crawler" [readme.md](./council_crawler/readme.md). 
+For volunteers interested in writing scrapers/helping out with initial development, as a first step install , then try to run one of our scrapers using our "council crawler" [readme.md](./council_crawler/readme.md).
 
 **Skills:**
 
